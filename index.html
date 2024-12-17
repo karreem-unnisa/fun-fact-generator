@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Fun Facts Generator</title>
+    <title>Enhanced Fun Facts Generator</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e2e5 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,46 +24,99 @@
             text-align: center;
             background-color: white;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
             width: 90%;
         }
 
         h1 {
             color: #333;
             margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
         }
 
         .fact-box {
             background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            min-height: 100px;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            min-height: 300px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fact-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #fact-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
         }
 
         #fact-text {
             color: #444;
             line-height: 1.6;
+            font-size: 1.1rem;
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         #generate-btn {
-            background-color: #4CAF50;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
 
         #generate-btn:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        #generate-btn:active {
+            transform: translateY(1px);
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -71,6 +124,7 @@
     <div class="container">
         <h1>Fun Fact Generator</h1>
         <div class="fact-box">
+            <img id="fact-image" src="https://source.unsplash.com/random/200x200/?nature" alt="Random fact illustration">
             <p id="fact-text">Click the button to get a random fun fact!</p>
         </div>
         <button id="generate-btn">Generate Fun Fact</button>
@@ -78,31 +132,64 @@
 
     <script>
         const facts = [
-            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly good to eat.",
-            "A day on Venus is longer than its year. Venus takes 243 Earth days to rotate on its axis but only 225 Earth days to orbit the Sun.",
-            "The average person spends 6 months of their lifetime waiting for red lights to turn green.",
-            "Bananas are berries, but strawberries aren't.",
-            "Cows have best friends and get stressed when separated from them.",
-            "The first oranges weren't orange; they were green.",
-            "A single cloud can weigh more than 1 million pounds.",
-            "Octopuses have three hearts.",
-            "A flamingo's head has to be upside down when it eats.",
-            "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after just 38 minutes."
+            {
+                text: "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly good to eat.",
+                imageQuery: "honey"
+            },
+            {
+                text: "A day on Venus is longer than its year. Venus takes 243 Earth days to rotate on its axis but only 225 Earth days to orbit the Sun.",
+                imageQuery: "planet-venus"
+            },
+            {
+                text: "The average person spends 6 months of their lifetime waiting for red lights to turn green.",
+                imageQuery: "traffic-light"
+            },
+            {
+                text: "Bananas are berries, but strawberries aren't.",
+                imageQuery: "banana"
+            },
+            {
+                text: "Cows have best friends and get stressed when separated from them.",
+                imageQuery: "cow"
+            }
         ];
 
         const factText = document.getElementById('fact-text');
+        const factImage = document.getElementById('fact-image');
         const generateBtn = document.getElementById('generate-btn');
+        let currentIndex = -1;
 
-        function generateFact() {
-            const randomIndex = Math.floor(Math.random() * facts.length);
-            factText.style.opacity = '0';
-            setTimeout(() => {
-                factText.textContent = facts[randomIndex];
-                factText.style.opacity = '1';
-            }, 300);
+        async function generateFact() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * facts.length);
+            } while (newIndex === currentIndex);
+            
+            currentIndex = newIndex;
+            
+            // Add fade-out effect
+            factText.classList.add('fade-out');
+            factImage.style.transform = 'scale(0.8)';
+            factImage.style.opacity = '0';
+
+            // Change content after fade-out
+            setTimeout(async () => {
+                factText.textContent = facts[currentIndex].text;
+                factImage.src = `https://source.unsplash.com/random/200x200/?${facts[currentIndex].imageQuery}`;
+                
+                // Add fade-in effect
+                factText.classList.remove('fade-out');
+                factImage.style.transform = 'scale(1)';
+                factImage.style.opacity = '1';
+            }, 500);
         }
 
         generateBtn.addEventListener('click', generateFact);
+        
+        // Add loading animation for image
+        factImage.addEventListener('load', () => {
+            factImage.style.opacity = '1';
+        });
     </script>
 </body>
 </html>
