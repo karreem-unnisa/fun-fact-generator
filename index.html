@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Facts Generator</title>
+    <title>Enhanced Fun Facts Generator</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,11 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f0f2f5 0%, #e0e2e5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://t3.ftcdn.net/jpg/04/13/70/70/360_F_413707059_i1H7l2V2K8z21rcbm6fvk8sG4E2pwpyV.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,21 +25,23 @@
 
         .container {
             text-align: center;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             max-width: 800px;
             width: 90%;
+            backdrop-filter: blur(10px);
         }
 
         h1 {
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 2rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            font-weight: 700;
         }
 
         h1::after {
@@ -47,76 +52,71 @@
             transform: translateX(-50%);
             width: 100px;
             height: 3px;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+            background: linear-gradient(90deg, #3498db, #2980b9);
         }
 
         .fact-box {
-            background-color: #f8f9fa;
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
             min-height: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            gap: 25px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .fact-box:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         #fact-image {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.5s ease;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
         }
 
         #fact-text {
-            color: #444;
-            line-height: 1.6;
-            font-size: 1.1rem;
+            color: #34495e;
+            line-height: 1.8;
+            font-size: 1.2rem;
             opacity: 1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: all 0.5s ease;
+            padding: 0 20px;
         }
 
         #generate-btn {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: linear-gradient(45deg, #3498db, #2980b9);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
+            padding: 15px 35px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            font-weight: 600;
         }
 
         #generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        #generate-btn:active {
-            transform: translateY(1px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(45deg, #2980b9, #3498db);
         }
 
         .fade-out {
             opacity: 0;
             transform: translateY(20px);
-        }
-
-        .fade-in {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
@@ -124,7 +124,7 @@
     <div class="container">
         <h1>Fun Fact Generator</h1>
         <div class="fact-box">
-            <img id="fact-image" src="https://static.vecteezy.com/system/resources/thumbnails/011/867/615/small_2x/facts-text-is-a-word-written-in-neon-letters-on-a-black-background-pointed-to-by-a-hand-with-a-person-s-index-finger-photo.jpg" alt="Random fact illustration">
+            <img id="fact-image" src="https://source.unsplash.com/random/200x200/?nature" alt="Random fact illustration">
             <p id="fact-text">Click the button to get a random fun fact!</p>
         </div>
         <button id="generate-btn">Generate Fun Fact</button>
@@ -167,17 +167,14 @@
             
             currentIndex = newIndex;
             
-            // Add fade-out effect
             factText.classList.add('fade-out');
             factImage.style.transform = 'scale(0.8)';
             factImage.style.opacity = '0';
 
-            // Change content after fade-out
             setTimeout(async () => {
                 factText.textContent = facts[currentIndex].text;
-                factImage.src = `https://static.vecteezy.com/system/resources/thumbnails/011/867/615/small_2x/facts-text-is-a-word-written-in-neon-letters-on-a-black-background-pointed-to-by-a-hand-with-a-person-s-index-finger-photo.jpg/random/200x200/?${facts[currentIndex].imageQuery}`;
+                factImage.src = `https://source.unsplash.com/random/200x200/?${facts[currentIndex].imageQuery}`;
                 
-                // Add fade-in effect
                 factText.classList.remove('fade-out');
                 factImage.style.transform = 'scale(1)';
                 factImage.style.opacity = '1';
@@ -186,7 +183,6 @@
 
         generateBtn.addEventListener('click', generateFact);
         
-        // Add loading animation for image
         factImage.addEventListener('load', () => {
             factImage.style.opacity = '1';
         });
