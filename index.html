@@ -124,7 +124,7 @@
     <div class="container">
         <h1>Fun Fact Generator</h1>
         <div class="fact-box">
-            <img id="fact-image" src="https://cdn.pixabay.com/photo/2020/02/28/05/23/aesthetic-4886533_1280.jpg" alt="Random fact illustration">
+            <img id="fact-image" src="https://static.vecteezy.com/system/resources/thumbnails/011/867/615/small_2x/facts-text-is-a-word-written-in-neon-letters-on-a-black-background-pointed-to-by-a-hand-with-a-person-s-index-finger-photo.jpg" alt="Random fact illustration">
             <p id="fact-text">Click the button to get a random fun fact!</p>
         </div>
         <button id="generate-btn">Generate Fun Fact</button>
@@ -175,7 +175,7 @@
             // Change content after fade-out
             setTimeout(async () => {
                 factText.textContent = facts[currentIndex].text;
-                factImage.src = `https://source.unsplash.com/random/200x200/?${facts[currentIndex].imageQuery}`;
+                factImage.src = `https://static.vecteezy.com/system/resources/thumbnails/011/867/615/small_2x/facts-text-is-a-word-written-in-neon-letters-on-a-black-background-pointed-to-by-a-hand-with-a-person-s-index-finger-photo.jpg/random/200x200/?${facts[currentIndex].imageQuery}`;
                 
                 // Add fade-in effect
                 factText.classList.remove('fade-out');
