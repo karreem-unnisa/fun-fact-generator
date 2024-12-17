@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('https://t3.ftcdn.net/jpg/04/13/70/70/360_F_413707059_i1H7l2V2K8z21rcbm6fvk8sG4E2pwpyV.jpg');
+ 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -124,7 +124,7 @@
     <div class="container">
         <h1>Fun Fact Generator</h1>
         <div class="fact-box">
-            <img id="fact-image" src="https://source.unsplash.com/random/200x200/?nature" alt="Random fact illustration">
+            <img id="fact-image" src="https://t3.ftcdn.net/jpg/04/13/70/70/360_F_413707059_i1H7l2V2K8z21rcbm6fvk8sG4E2pwpyV.jpg" alt="Random fact illustration">
             <p id="fact-text">Click the button to get a random fun fact!</p>
         </div>
         <button id="generate-btn">Generate Fun Fact</button>
@@ -173,7 +173,7 @@
 
             setTimeout(async () => {
                 factText.textContent = facts[currentIndex].text;
-                factImage.src = `https://source.unsplash.com/random/200x200/?${facts[currentIndex].imageQuery}`;
+                
                 
                 factText.classList.remove('fade-out');
                 factImage.style.transform = 'scale(1)';
